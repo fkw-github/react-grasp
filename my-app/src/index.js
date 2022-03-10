@@ -63,10 +63,12 @@ class Game extends React.Component {
     super(props);
     this.state = {
       history: [{
-        squares: Array(9).fill(null)
+        squares: Array(9).fill(null),
+        block: null
       }],
       xIsNext: true,
-      stepNumber: 0
+      stepNumber: 0,
+      coordinate: [[1, 1], [1, 2], [1, 3], [2, 1], [2, 2], [2, 3], [3, 1], [3, 2], [3, 3]],
     }
   }
 
@@ -78,12 +80,14 @@ class Game extends React.Component {
       return;
     }
     squares[i] = this.state.xIsNext ? 'X' : 'O';
+    console.log(i)
     this.setState({
       history: history.concat([{
         squares: squares,
+        block: i
       }]),
       xIsNext: !this.state.xIsNext,
-      stepNumber: history.length
+      stepNumber: history.length,
     });
   }
 
@@ -95,6 +99,7 @@ class Game extends React.Component {
   }
 
   render() {
+    const coordinate = this.state.coordinate;
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
@@ -103,9 +108,10 @@ class Game extends React.Component {
       const desc = move ?
         'Go to move #' + move :
         'Go to game start';
+      const point = step.block !== null ? coordinate[step.block]: '';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button onClick={() => this.jumpTo(move)}>{desc}{point ? '，棋子坐标为' + point: ''}</button>
         </li>
       );
     });
