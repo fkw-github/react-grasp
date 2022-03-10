@@ -111,7 +111,7 @@ class Game extends React.Component {
       const point = step.block !== null ? coordinate[step.block]: '';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}{point ? '，棋子坐标为' + point: ''}</button>
+          <button className={move === this.state.stepNumber ? "high-light" : ""} onClick={() => this.jumpTo(move)}>{desc}{point ? '，棋子坐标为' + point: ''}</button>
         </li>
       );
     });
